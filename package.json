@@ -1,0 +1,16 @@
+{
+  "name": "crud_apllication_with_local_storage_nodejs",
+  "version": "1.0.0",
+  "description": "A simple CRUD application with NodeJS, HTML, CSS, Bootstrap5",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "author": "Tanvir Anjom Siddique",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
