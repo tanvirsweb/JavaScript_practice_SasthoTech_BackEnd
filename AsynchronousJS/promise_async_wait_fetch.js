@@ -59,18 +59,28 @@ Promise.all( [promise1, promise2, promise3, promise4] ).then(values=>console.log
 //Async / Await ->more elegant way to handle JS
 console.log('Async / Await :')
 async function init(){
-    await createPost( {title: 'Post Four', body: 'This is body of post Four'});
+    try{
+        await createPost( {title: 'Post Four', body: 'This is body of post Four'});
     // await -> waits for an asynchronous process/action to complete
-    getPosts();
+        getPosts();
+    } catch(err){
+        console.log("Error occured!! \n",err);
+    }
+    
 }
 init();
 // -------------------------------------------------
-//Async / Await / Fetch
+//Async / Await / Fetch (parent function: asynchronous , call another asynchronous function inside it 
+// --> use await --> 1st wait to execute it then execute rest)
+// use try{ }catch(e){ } for async..await --> best way , avoid nested (4 level max) coding style
 console.log('Async / Await / Fetch :')
 async function fetchUsers(){
-    const res = await fetch('https://jsonplaceholder.typicode.com/users');
+    try{
+        const res = await fetch('https://jsonplaceholder.typicode.com/users');
+        const data = await res.json();
+        console.log(data);
+    } catch(err){
+        console.log("Error occured!! \n",err);
+    }
     
-    const data = await res.json();
-    
-    console.log(data);
 }

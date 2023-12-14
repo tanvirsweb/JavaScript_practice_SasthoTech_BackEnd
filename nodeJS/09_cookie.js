@@ -5,11 +5,17 @@ const express = require('express'),
 app.use(cookieParser());
 
 app.get('/extract-cookie', async (req, res)=>{
-    const cookie = req.cookies;
-    //send cookie
+    // get cookie
+    const cookie = req.cookies.authToken;
     res.status(200).json( {
         your_cookie: cookie,
     } );  
+} );
+app.get('/send-cookie', async (req, res)=>{
+  // send cookies to client browser--> authToken:8801715619397
+  res.cookie('authToken', "8801715619397", { httpOnly: true });
+  // res.clearCookie('authToken'); //destroy cookie in client browser
+   
 } );
 
 app.listen(3000, ()=>{

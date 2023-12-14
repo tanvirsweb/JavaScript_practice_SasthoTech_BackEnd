@@ -3,13 +3,12 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const mysql = require('mysql2/promise');
-const { getMaxListeners } = require('../mysql2_nodejs_express_crudapp/db');
 
 const jwt = require('jsonwebtoken');
-const JWT_KEY = 'yourSecretKey';
+const JWT_KEY = process.env.JWT_SECRET || 'SecretKey';
 
-const app = express();
-const PORT = 3000;
+const app = express(); // to accept get/post/delete/update request we need express() object
+const PORT = process.env.PORT || 3000;
 
 // MySQL database configuration
 const dbConfig = {
@@ -23,8 +22,8 @@ const dbConfig = {
 const pool = mysql.createPool(dbConfig);
 
 // Middleware
-app.use(express.json());
-app.use(cookieParser());
+app.use(express.json()); // to access res.body send by get/post/delete/update request
+app.use(cookieParser()); // to access cookie (send & recieve to client browser)
 
 // Validation schema using Joi
 const userSchema = Joi.object({
@@ -99,7 +98,8 @@ app.post('/login', async (req, res) => {
     // Sign the JWT with the user ID and a secret key
     const token = jwt.sign({ id }, JWT_KEY);
 
-    // Set the JWT as an HTTP-only cookie
+    // Set the JWT as an HTTP-only cookie--> can't access this cookie by "document.cookie" from console
+    // can access this cookie by only http request
     res.cookie('authToken', token, { httpOnly: true });
 
     return res.json({ message: 'Login successful', userId: user[0].id });
@@ -111,7 +111,7 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/logout', (req, res) => {
-  // Clear the authentication cookie
+  // Clear the authentication cookie in client browser
   res.clearCookie('authToken');
   return res.json({ message: 'Logout successful' });
 });
@@ -149,6 +149,8 @@ const authenticateUser = (req, res, next) => {
 // Create note route (protected by authentication middleware)
 app.post('/notes', authenticateUser, async (req, res) => {
     try {
+        // this is not asynchronous function instead of throw error, it returns error.
+        // so we won't take error from catch(err){...} but here.
         const { error, value } = noteSchema.validate(req.body);
         if (error) {
             return res.status(400).json({ error: error.details[0].message });

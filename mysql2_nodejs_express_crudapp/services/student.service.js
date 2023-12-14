@@ -8,13 +8,13 @@ module.exports.getAllstudents = async ()=>{
 
 module.exports.getStudentById = async (id)=>{
     const [record] = await db.query("SELECT* FROM students WHERE id = ?",[id])
-        .catch(err=> console.log(err)) 
+    //.catch(err=> console.log(err)) //--> don't use .catch(err=>{}) for await --> use try{} catch(e){}
     return record;
 }
 
 module.exports.deleteStudentById = async (id)=>{
     const [record] = await db.query("DELETE  FROM students WHERE id = ?",[id])
-        .catch(err=> console.log(err)) 
+        //.catch(err=> console.log(err)) 
     return record.affectedRows;
 }
 
@@ -23,11 +23,11 @@ module.exports.addOrEditStudent = async (obj, id=0)=>{
     if(id==0){
         const currentDate = new Date();
         await db.query("INSERT INTO students (name, university, district ,updatedAt ,createdAt) VALUES(?, ?, ?, ?, ?)",[ obj.name, obj.university, obj.district ,currentDate ,currentDate])
-        .catch(err=> console.log(err)) 
+        //.catch(err=> console.log(err)) 
     }
     else{
         const [{affectedRows}] = await db.query("UPDATE students SET name=? ,university=? ,district=? ,updatedAt=?  WHERE id=?",[obj.name, obj.university, obj.district,new Date(), id])
-        .catch(err=> console.log(err)) 
+        //.catch(err=> console.log(err)) 
         return affectedRows;
     }
 }

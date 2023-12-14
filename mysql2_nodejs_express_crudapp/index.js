@@ -15,10 +15,10 @@ app.use('/api/students', studentRoutes)
 
 
 // globally handle error: npm i express-async-errors
-app.use((err, req, res, next)=>{
+app.use( (err, req, res, next)=>{
     console.log(err)
     res.status(err.status || 500).send('Something went wrong!')
-})
+} )
 
 // module.exports= pool so, here instead of pool.query() -> write db.query()
 db.query("SELECT 1")
