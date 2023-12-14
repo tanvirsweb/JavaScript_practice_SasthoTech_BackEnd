@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+  // DATABASE_URL_MYSQL="mysql://root:@localhost:3306/prisma_database"
+  // mysql://<username>:<password>@localhost:<port>/<database_name>
+
+  // provider = "sqlite"
+  // url      = env("DATABASE_URL")
+  // "file:./dev.db"
+
+}
+
+
+// id Int @id  --> make 'id' primay key (@id) &
+//@default(autoincrement()) -->  it will autoincrement (default value)
+// ? --> optional
+// artricles Article[] --> there will be multiple article of User
+
+
+model User{
+  id Int @id @default(autoincrement())
+  email String @unique
+  name String?
+  artricles Article[]
+}
+
+// author User @relation(fields: [authorId], references: [id])
+// make relation with this tables field: 'authorIdd' & 'User' tables 'id'
+
+model Article{
+  id Int @id @default(autoincrement())
+  title String
+  body String
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// after writing code in shema.prisma:
+// open xampp => create database: 'prisma_database', username: root, pass: (nothing), host: localhost 
+// Generated Prisma Client D:> npx prisma generate
+// create _prisma_migrations D:> npx prisma migrate dev --name init --create-only
+// deploy change in model (create tables/ deploy change) D:> npx prisma migrate deploy

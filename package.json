@@ -11,7 +11,11 @@
   "author": "Tanvir Anjom Siddique",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "@types/node": "^20.10.4",
+    "nodemon": "^3.0.2",
+    "prisma": "^5.7.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "@prisma/client": "^5.7.0",
@@ -23,7 +27,6 @@
     "joi": "^13.7.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.5",
-    "prisma": "^5.7.0",
     "uuid": "^9.0.1",
     "zod": "^3.22.4"
   }
