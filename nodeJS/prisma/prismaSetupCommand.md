@@ -28,7 +28,7 @@ Getting Started
 1. (install typescript)
   npm install typescript ts-node @types/node -D
 
-2. (create ts config file: tsconfig.json)
+2. (create ts config file: tsconfig.json):initialize TypeScript and Webpack
   npx tsc --init
 
 3. (install prisma)
@@ -58,10 +58,10 @@ after writing code in shema.prisma:
 1. open xampp => create database: 'prisma_database', username: root, pass: (nothing), host: localhost 
 2. inside .env:  DATABASE_URL="mysql://root:@localhost:3306/prisma_database" 
 
-3. Generated Prisma Client 
+3. Generated Prisma Client (open xampp : on apache & mysql)
   npx prisma generate
 
-4. create _prisma_migrations 
+4. create _prisma_migrations table (keep track of a lot of thigs about prisma) 
   npx prisma migrate dev --name init --create-only
 
 5. deploy change in model (create tables/ deploy change) 
