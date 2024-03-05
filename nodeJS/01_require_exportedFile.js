@@ -26,3 +26,39 @@ const person1 = new Person('Alvi Siddique', 23);
 person1.greetings();
 
 
+
+const dataExported = require('./01_export_multiple.js');
+console.log(`\nAll exported: ${dataExported}\n`);
+console.log(dataExported);
+
+dataExported.funcExported();
+console.log(dataExported.items);
+console.log(dataExported.singlePerson);
+
+const {funcExported, items, singlePerson, exportedName } = require('./01_export_multiple.js');
+funcExported();
+exportedName.HelloJS();
+console.log(items);
+console.log(singlePerson);
+
+var t= 0;
+// execute below code after each 15 seconds.
+// ctrl+c : exit
+setInterval(()=>{
+    console.log(`${t} seconds passed!`);
+    t=t+30;
+}, 30000);
+
+
+const { sayhello } = require('./01_functions.js');
+//we don't need to reuqire all modules exported from given file
+const { CNST ,jsprogram } = require('./01_functions');
+//we don't need to reuqire  modules in serial as {} used names are matched not serial
+// we can just omit extension '.js'
+sayhello();
+jsprogram();
+var v = CNST;
+console.log(v);
+
+console.log('module:\n',module);
+
