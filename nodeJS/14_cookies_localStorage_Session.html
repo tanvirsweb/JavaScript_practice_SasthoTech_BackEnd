@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies, Local Storage, Session </title>
+</head>
+<body>
+    <h1 style="text-align: center; background-color: #ccc;">Cookies, Local Storage, Session</h1>
+
+    <input type="text" placeholder="Enter a text">
+    <h2></h2>
+
+    <script>
+        // everything in setItem --> string (key, value) pair
+        // localStorage.setItem('Key', 'value for key');
+        localStorage.setItem('name', 'Alvi Siddique');
+        console.log(localStorage.getItem('name'));
+        localStorage.removeItem('name')
+
+        localStorage.setItem('accept-cookies', 'true');
+
+        // JSON.stringify(jsObj)--> js Object to string
+        // JSON.parse('string')--> string to js Object
+        localStorage.setItem('data', JSON.stringify({ prop: 1 }) );
+        console.log( JSON.parse( localStorage.getItem('data') ) );
+
+        localStorage.setItem('score', 4);
+        localStorage.setItem('nickname', 'Alvi')
+        console.log(localStorage);
+        console.log( {...localStorage} );// create an object {} & spread entire content of local storage ...localStorage
+        // get array of values
+        console.log( Object.values(localStorage) );
+        // get array of keys
+        console.log( Object.keys(localStorage) );
+        // get key & value in array in array format
+        console.log( Object.entries(localStorage) );
+
+        sessionStorage.setItem('name','Alvi Siddique');
+        sessionStorage.setItem('name','New Name');
+        console.log(sessionStorage.getItem('name'));
+        sessionStorage.removeItem('name');
+        // setItem --> key --> not exist: create it & assign value
+        // key--> already exist: update it's value
+        
+        document.cookie ='name=Anjom; expires='+new Date(2025,0,1).toUTCString();//jan 1st 2025
+        console.log(document.cookie);
+
+
+        // -------------------DOM & Event lister--------------------------
+        const input = document.querySelector('input'),
+              h2 = document.querySelector('h2');
+        
+        // localStorage.clear(); // set value of all, variable=null
+        // localStorage.removeItem('value'); // delete variable & it's value
+
+        // check if 'value' named key exists?
+        if(localStorage.getItem('value') === null) {
+            h2.innerHTML = localStorage.getItem('value');
+        }
+        
+        input.addEventListener('keyup', display);
+        function display() {
+            localStorage.setItem('value', input.value);
+            h2.innerHTML = localStorage.getItem('value');
+            console.log(localStorage.getItem('value'));
+        }
+
+    </script>
+</body>
+</html>
