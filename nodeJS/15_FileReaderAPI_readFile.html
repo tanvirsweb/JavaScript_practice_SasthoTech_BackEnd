@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+<body data-rsssl=1>
+
+    <p>A data URL for the file you select will be output below! This contains the file in string format (why it is so long!) and can be used like a regular URL.</p>
+    <form>
+        <input type="file">
+        <div id="preview"></div>
+    </form>
+<script>
+    const fileInput = document.querySelector('[type="file"]');
+    const preview = document.getElementById('preview');
+    
+    fileInput.addEventListener('change', () => {
+        // This function runs when file is selected
+        const fr = new FileReader(); 
+        // Creates new FileReader instance
+        fr.readAsDataURL(fileInput.files[0]);
+        // Reads user-selected file (other reading methods possible)
+        fr.addEventListener('load', () => {
+            // This function runs when reading is complete
+            const url = fr.result;
+            // Result always available on result property on the file reader
+            document.getElementById('preview').innerText = url;
+        })
+    });
+    </script>
+  
+</body>
+</html>

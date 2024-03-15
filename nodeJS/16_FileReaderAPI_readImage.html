@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+<body data-rsssl=1>
+
+    <p>An image you select from file will be print in grayscale!</p>
+    <form>
+        <input type="file">
+        <div id="preview"></div>
+    </form>
+<script>
+    const fileInput = document.querySelector('[type="file"]');
+    const preview = document.getElementById('preview');
+    fileInput.addEventListener('change', () => {
+        const fr = new FileReader();
+        fr.readAsDataURL(fileInput.files[0]);
+        fr.addEventListener('load', () => {
+            const url = fr.result;
+            const img = new Image();
+            img.src = url;
+            // Sets data URL to image src
+            img.onload = () => {
+            // This function runs when image has loaded
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            // Creates new 2D canvas element
+            canvas.width = img.width;
+            canvas.height = img.height;
+            // Sets height and width of canvas to image dimensions
+            ctx.filter = 'grayscale(1)';
+            ctx.drawImage(img, 0, 0);
+            // Apply grayscale filter to canvas and draw image
+            preview.appendChild(canvas);
+            // Display editied image in canvas
+            }
+        })
+    });
+</script>
+  
+</body>
+</html>
