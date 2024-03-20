@@ -22,6 +22,7 @@ function getPosts(){
 }
 
 function createPost(post, callback){
+    // wait for 2 seconds to emulate, then fire passed function in: setTimeout(func, time)
     setTimeout( ()=>{ 
         posts.push(post);        
         callback(); 
@@ -33,3 +34,4 @@ function createPost(post, callback){
 createPost( {title: 'Post Three', body: 'This is body of post three'}, getPosts );
 //in place of CALLBACK parameter function getPosts() is passed
 //after createPosts() is executed > getPosts() will be executed.
+

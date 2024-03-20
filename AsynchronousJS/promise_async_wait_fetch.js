@@ -47,7 +47,7 @@ createPost( {title: 'Post Three', body: 'This is body of post three'})
 //reject() --> function inside catch() will be executed.
 
 //promise.all
-console.log('Promise.all().then() used:')
+console.log('Promise.all().then() used:');
 const promise1 = Promise.resolve('Hello World!');
 const promise2 = new Promise((resolve, reject)=>setTimeout(resolve, 2000, 'Goodbye'));
 const promise3 = 10;
