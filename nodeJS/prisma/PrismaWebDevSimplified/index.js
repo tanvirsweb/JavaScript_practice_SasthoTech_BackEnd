@@ -12,6 +12,8 @@
 // npx prisma format --> format prisma code
 
 // npm install @prisma/client
+// npm prisma generate --> generate prisma client
+
 // Migrate & add new model to database (its for development only & we will initialize database with this model of User): 
 // npx prisma migrate dev --name init
 
@@ -19,6 +21,7 @@ const { PrismaClient } = require('@prisma/client')
 
 const prisma = new PrismaClient()
 
+// almost everything in prisma is Asynchronous
 async function main() {
     // await prisma.user.create({
     //   data: {
@@ -29,9 +32,13 @@ async function main() {
     //     },
     //     profile: {
     //       create: { bio: 'I like turtles' },
-    //     },
+    //     }, 
     //   },
     // })
+
+
+    // findMany() --> get all
+    // 
   
     const allUsers = await prisma.user.findMany({
       include: {

@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+    // take all this prisma code & provide prisma-client-js
+    // whenever I update model/ prisma code I gonna update this prisma-client-js
+    // client --> all of the code for interacting with your database. add bunch of code to update,insert,delete in db--> written in typescript
+
+    // generator --> creates library for you to interact with db.
+}
+
+// where our data is coming from
+// we can have only 1 datasource, but multiple generator
+datasource db {
+    provider = "postgresql"
+    // name of database we are using
+    url      = env("DATABASE_URL")
+    // database credential : "name_of_db://owner_or_user:password@localhost:port/dbname?schema=public"
+}
+
+// model= table, each row here= field
+// @attributeName
+// Float --> normal floating point number
+// Decimal --> wider range floating point number
+// Bytes --> file type / storing very big data
+// Post[] --> array of Post
+// field type: []--> there is multiple of this thing , ? --> it is optional
+
+model User {
+    id             String          @id @default(uuid())
+    email          String          @unique
+    name           String
+    isAdmin        Boolean
+    preferences    Json?
+    // blob           Bytes?
+    writtenPosts   Post[]          @relation("WrittenPosts")
+    favouritePosts Post[]          @relation("FavouritePosts")
+    Profile        Profile?
+    UserPreference UserPreference?
+}
+
+model UserPreference {
+    id           String  @id @default(uuid())
+    emailUpdates Boolean
+    user         User    @relation(fields: [userId], references: [id])
+    userId       String  @unique
+}
+
+model Post {
+    // id        Int      @id @default(autoincrement())
+    id        String   @id @default(uuid())
+    rating    Float
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // what field in post table referencing Id of User table
+    author   User @relation("WrittenPosts", fields: [authorId], references: [id])
+    authorId Int
+
+    favouritedBy   User?     @relation("FavouritePosts", fields: [favouritedById], references: [id])
+    favouritedById Int?
+    Category       Category? @relation(fields: [categoryId], references: [id])
+    categoryId     String?
+}
+
+model Category {
+    id    String @id @default(uuid())
+    posts Post[]
+}
+
+model Profile {
+    id     Int     @id @default(autoincrement())
+    bio    String?
+    user   User    @relation(fields: [userId], references: [id])
+    userId Int     @unique
+}
