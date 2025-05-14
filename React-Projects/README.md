@@ -1,5 +1,18 @@
 # React Basics – [Tanvir Anjom Siddique](https://github.com/tanvirsweb)
 
+## 📚 Table of Contents
+
+- [Prerequisites](#-prerequisites)
+- [Setup & Installation](#️-create-react-project-latest-vite)
+- [Creating Components](#-start-coding)
+- [Styling with Bootstrap](#-add-bootstrap-in-srcmaintsx)
+- [Using State & Events](#️-add-onclick-event-listgroup-with-state)
+- [Reusable Components](#-create-generic-list-component-using-props-interface)
+- [Alert & Button Components](#-use-alert)
+- [Useful Tools](#-inspecting-components-with-react-developer-tools)
+
+---
+
 ## 🚀 Steps to Setup `React Project` using `Vite + TypeScript`
 
 ---
@@ -28,6 +41,21 @@
 ```bash
 node -v
 ```
+
+- If you are not starting new project but cloned this git repository `open React-Basics folder in terminal ` then run
+
+```bash
+# install all necessary dependencies speified in package.json
+npm install
+
+# open vscode
+code .
+
+# run project
+npm run dev
+```
+
+- Now open [http://localhost:5173/](http://localhost:5173/) in browser and you can see this project's webpage on it.
 
 ---
 
@@ -555,14 +583,262 @@ export default App;
 
 ---
 
+### 🧠 Routing in React
+
+- Install dependencies
+
+  ```bash
+  npm install react-router-dom
+  ```
+
+- `src/main.tsx`
+
+```tsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter } from "react-router-dom";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
+);
+```
+
+- `src/App.tsx`
+
+```tsx
+// App.tsx
+import { Routes, Route, Link } from "react-router-dom";
+import Alert from "./components/Alert";
+import Message from "./components/Message";
+import ListGroup from "./components/ListGroup";
+import GenericListGroup from "./components/GenericListGroup";
+import Button from "./components/Button";
+
+function App() {
+  const items = ["Item-0", "Item-1", "Item-2", "Item-3", "Item-4"];
+  const handleSelectItem = (item: string) => {
+    console.log(item);
+  };
+
+  return (
+    <div className="container bg-transparent m-4 p-4 shadow">
+      {/* Navigation Bar */}
+      <nav className="mb-4">
+        <Link to="/" className="btn btn-outline-primary me-2">
+          Home
+        </Link>
+        <Link to="/message" className="btn btn-outline-primary me-2">
+          Message
+        </Link>
+        <Link to="/list" className="btn btn-outline-primary me-2">
+          List Group
+        </Link>
+        <Link to="/generic-list" className="btn btn-outline-primary me-2">
+          Generic List
+        </Link>
+        <Link to="/button" className="btn btn-outline-primary me-2">
+          Alert Button
+        </Link>
+      </nav>
+
+      {/* Routes: Specify for each link which component to show. In each Link components outside Routes will remain same */}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div>
+              <h4>Welcome to React Components Demo</h4>
+              <p>
+                Routes: Specify for each link which component to show. For each
+                Link components outside Routes will remain same.
+              </p>
+            </div>
+          }
+        />
+
+        <Route path="/message" element={<Message />} />
+
+        <Route path="/list" element={<ListGroup />} />
+
+        <Route
+          path="/generic-list"
+          element={
+            <>
+              <GenericListGroup
+                items={items}
+                heading="List-02: Generic Items"
+                onSelectItem={handleSelectItem}
+              />
+              <GenericListGroup
+                items={["Bangladesh", "America", "England", "Australia"]}
+                heading="List-03: Country"
+                onSelectItem={(item) => console.log(`selected item: ${item}`)}
+              />
+            </>
+          }
+        />
+
+        <Route
+          path="/button"
+          element={
+            <Button
+              color="primary"
+              onClick={() => console.log("Button Clicked")}
+            >
+              Click Me
+            </Button>
+          }
+        />
+        {/* End Routes */}
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
+```
+
+- `src/App.tsx` with active link
+
+```tsx
+// App.tsx
+import { Routes, Route, NavLink } from "react-router-dom";
+import Alert from "./components/Alert";
+import Message from "./components/Message";
+import ListGroup from "./components/ListGroup";
+import GenericListGroup from "./components/GenericListGroup";
+import Button from "./components/Button";
+
+function App() {
+  const items = ["Item-0", "Item-1", "Item-2", "Item-3", "Item-4"];
+  const handleSelectItem = (item: string) => {
+    console.log(item);
+  };
+
+  return (
+    <div className="container bg-transparent m-4 p-4 shadow">
+      {/* Navigation Bar */}
+      <nav className="mb-4">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? "btn btn-primary m-2" : "btn btn-outline-primary m-2"
+          }
+        >
+          Home
+        </NavLink>
+
+        <NavLink
+          to="/message"
+          className={({ isActive }) =>
+            isActive ? "btn btn-primary m-2" : "btn btn-outline-primary m-2"
+          }
+        >
+          Message
+        </NavLink>
+
+        <NavLink
+          to="/list"
+          className={({ isActive }) =>
+            isActive ? "btn btn-primary m-2" : "btn btn-outline-primary m-2"
+          }
+        >
+          List Group
+        </NavLink>
+
+        <NavLink
+          to="/generic-list"
+          className={({ isActive }) =>
+            isActive ? "btn btn-primary m-2" : "btn btn-outline-primary m-2"
+          }
+        >
+          Generic List
+        </NavLink>
+
+        <NavLink
+          to="/button"
+          className={({ isActive }) =>
+            isActive ? "btn btn-primary m-2" : "btn btn-outline-primary m-2"
+          }
+        >
+          Alert Button
+        </NavLink>
+      </nav>
+
+      {/* Routes */}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div>
+              <h4>Welcome to React Components Demo</h4>
+              <p>Use the navigation bar to explore each component.</p>
+            </div>
+          }
+        />
+
+        <Route path="/message" element={<Message />} />
+
+        <Route path="/list" element={<ListGroup />} />
+
+        <Route
+          path="/generic-list"
+          element={
+            <>
+              <GenericListGroup
+                items={items}
+                heading="List-02: Generic Items"
+                onSelectItem={handleSelectItem}
+              />
+              <GenericListGroup
+                items={["Bangladesh", "America", "England", "Australia"]}
+                heading="List-03: Country"
+                onSelectItem={(item) => console.log(`Selected item: ${item}`)}
+              />
+            </>
+          }
+        />
+
+        <Route
+          path="/button"
+          element={
+            <Button
+              color="primary"
+              onClick={() => console.log("Button Clicked")}
+            >
+              Click Me
+            </Button>
+          }
+        />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
 ## 🎉 Congratulations!
 
 You're now set up with a basic **`React + TypeScript + Vite`** project including:
 
-- Bootstrap styling
-- Static and dynamic components
-- Reusable generic components
-- Props, events, and state management
+- ✅ Setup with Vite & TS
+
+- ✅ Functional components
+
+- ✅ Props & State
+
+- ✅ Bootstrap styling
+
+- ✅ Reusable components
 
 ---
 
