@@ -1,6 +1,6 @@
 # React Basics – [Tanvir Anjom Siddique](https://github.com/tanvirsweb)
 
-## 🚀 Steps to Setup React Project using Vite + TypeScript
+## 🚀 Steps to Setup `React Project` using `Vite + TypeScript`
 
 ---
 
@@ -12,11 +12,14 @@
 #### VS Code Extensions:
 
 - Prettier Code Formatter
-- Enable **Format on Save**:
 
-```
-Go to File > Preferences > Settings > Search: format on save > Enable it
-```
+  - Enable **Format on Save**:
+
+  ```
+  Go to File > Preferences > Settings > Search: format on save > Enable it
+  ```
+
+- ES7+ React/Redux/React-Native snippets
 
 ---
 
@@ -95,10 +98,10 @@ export default Message;
 
 ### 📝 Notes
 
-- Use `className=` instead of `class=` (as `class` is a reserved keyword in JS).
-- Use `.map()` instead of traditional `for` loops for rendering lists.
+- Use **`className=`** instead of `class=` (as `class` is a reserved keyword in JS).
+- Use **`.map()`** instead of traditional `for` loops for rendering lists.
 - React components must return a **single root element**.
-  - Wrap multiple elements inside: `<div>...</div>` or `<>...</>` (React Fragment).
+  - Wrap multiple elements inside: **`<div>...</div>`** or **`<>...</>`** (**`React Fragment`**).
 
 ---
 
@@ -277,9 +280,284 @@ export default App;
 
 ---
 
+### 🧠Use Alert
+
+- Install VScode extension: **_ES7+ React/Redux/React-Native snippets_**
+- Create `src/components/Alert.tsx`
+- Write `rafce` and you will get a code template
+
+```tsx
+import React from "react";
+
+const Alert = () => {
+  return <div>Alert</div>;
+};
+
+export default Alert;
+```
+
+- `src/components/Alert.tsx`
+
+```tsx
+import { ReactNode } from "react";
+
+interface Props {
+  children: ReactNode;
+}
+
+const Alert = ({ children }: Props) => {
+  return <div className="alert alert-primary"> {children} </div>;
+};
+
+export default Alert;
+```
+
+- `src/App.tsx`
+
+```tsx
+import Alert from "./components/Alert";
+import Message from "./components/Message";
+import ListGroup from "./components/ListGroup";
+import GenericListGroup from "./components/GenericListGroup";
+
+function App() {
+  let items = ["Item-0", "Item-1", "Item-2", "Item-3", "Item-4"];
+  const handleSelectItem = (item: string) => {
+    console.log(item);
+  };
+  return (
+    <div className="container bg-transparent p-4 m-4 shadow">
+      <Message />
+      <hr />
+      <ListGroup />
+      <GenericListGroup
+        items={items}
+        heading="List2: Generic Items"
+        onSelectItem={handleSelectItem}
+      />
+
+      <GenericListGroup
+        items={["Bangladesh", "America", "England", "Australia"]}
+        heading="List3: Country"
+        onSelectItem={(item) => console.log(`selected item: ${item}`)}
+      />
+
+      <div className="m-4"></div>
+      <Alert>
+        Alert <span>Message</span>
+      </Alert>
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+### 🧠Inspecting components with [React Developer Tools](https://chromewebstore.google.com/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+
+- Search `React Developer Tools` in Chrome and add to Chrome
+- `Open React project in Chrome > right click > inspect > 'console>>' > components`
+
+---
+
+### 🧠Building a Button Component
+
+- `src/components/Button.tsx`
+- Write `rafce` for template
+
+```tsx
+import { useState } from "react";
+
+interface Props {
+  children: string;
+  // you can assign color with only one of these 3 values
+  color?: "primary" | "secondary" | "danger";
+  onClick: () => void;
+}
+
+const Button = ({ children, color, onClick }: Props) => {
+  return (
+    <div className={"btn btn-" + color} onClick={onClick}>
+      {" "}
+      {children}{" "}
+    </div>
+  );
+};
+
+export default Button;
+```
+
+- `src/App.tsx`
+
+```tsx
+import Alert from "./components/Alert";
+import Message from "./components/Message";
+import ListGroup from "./components/ListGroup";
+import GenericListGroup from "./components/GenericListGroup";
+import Button from "./components/Button";
+
+function App() {
+  let items = ["Item-0", "Item-1", "Item-2", "Item-3", "Item-4"];
+  const handleSelectItem = (item: string) => {
+    console.log(item);
+  };
+  return (
+    <div className="container bg-transparent p-4 m-4 shadow">
+      <Message />
+      <hr />
+      <ListGroup />
+      <GenericListGroup
+        items={items}
+        heading="List2: Generic Items"
+        onSelectItem={handleSelectItem}
+      />
+
+      <GenericListGroup
+        items={["Bangladesh", "America", "England", "Australia"]}
+        heading="List3: Country"
+        onSelectItem={(item) => console.log(`selected item: ${item}`)}
+      />
+
+      <div className="m-4"></div>
+      <Alert>
+        Alert <span>Message</span>
+      </Alert>
+
+      <Button color="primary" onClick={() => console.log("Button Clicked")}>
+        {" "}
+        Click Me{" "}
+      </Button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+### 🧠Showing An Alert
+
+- `src/components/Alert.tsx`
+
+```tsx
+import { ReactNode } from "react";
+
+interface Props {
+  children: ReactNode;
+  onClose: () => void;
+}
+
+const Alert = ({ children, onClose }: Props) => {
+  return (
+    <div
+      className="alert alert-primary alert-dismissible fade show"
+      onClick={onClose}
+      role="alert"
+    >
+      <strong> {children} </strong>
+      <button
+        type="button"
+        className="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+  );
+};
+
+export default Alert;
+```
+
+- `src/component/Button.tsx`
+
+```tsx
+import { useState } from "react";
+import Alert from "./Alert";
+import { set } from "zod";
+
+interface Props {
+  children: string;
+  // you can assign color with only one of these 3 values
+  color?: "primary" | "secondary" | "danger";
+  onClick: () => void;
+}
+
+const Button = ({ children, color, onClick }: Props) => {
+  const [alertVisible, setAlertVisible] = useState(false);
+  return (
+    <div>
+      <button
+        className={"btn btn-" + color}
+        onClick={() => {
+          setAlertVisible(true);
+          onClick();
+        }}
+      >
+        {children}
+      </button>
+
+      <div className="m-4"></div>
+      {alertVisible && (
+        <Alert onClose={() => setAlertVisible(false)}>My Alert</Alert>
+      )}
+    </div>
+  );
+};
+
+export default Button;
+```
+
+- `src/App.tsx`
+
+```tsx
+import Alert from "./components/Alert";
+import Message from "./components/Message";
+import ListGroup from "./components/ListGroup";
+import GenericListGroup from "./components/GenericListGroup";
+import Button from "./components/Button";
+
+function App() {
+  let items = ["Item-0", "Item-1", "Item-2", "Item-3", "Item-4"];
+  const handleSelectItem = (item: string) => {
+    console.log(item);
+  };
+  return (
+    <div className="container bg-transparent p-4 m-4 shadow">
+      <Message />
+      <hr />
+      <ListGroup />
+      <GenericListGroup
+        items={items}
+        heading="List-02: Generic Items"
+        onSelectItem={handleSelectItem}
+      />
+
+      <GenericListGroup
+        items={["Bangladesh", "America", "England", "Australia"]}
+        heading="List-03: Country"
+        onSelectItem={(item) => console.log(`selected item: ${item}`)}
+      />
+
+      <div className="m-4"></div>
+
+      <Button color="primary" onClick={() => console.log("Button Clicked")}>
+        Click Me
+      </Button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
 ## 🎉 Congratulations!
 
-You're now set up with a basic React + TypeScript + Vite project including:
+You're now set up with a basic **`React + TypeScript + Vite`** project including:
 
 - Bootstrap styling
 - Static and dynamic components
